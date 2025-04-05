@@ -12,20 +12,18 @@ const {
     getMyRequests,
     getClaimsForMyItems,
     updateClaimStatus,
-    
   } = require("../controllers/FoundItem");
   
 
 // Public routes (no authentication required)
 router.get("/items", getAllFoundItems);
-
-
 // Protected routes (authentication required)
 router.get("/my-listings", getMyListings);
 router.get("/my-requests", getMyRequests);
 router.get("/claims-for-my-items", getClaimsForMyItems);
 router.post("/claim", createClaimedRequest);
 router.put("/update-claim", updateClaimStatus);
+router.post('/found-items', createFoundItem);
 
 
 module.exports = router;
