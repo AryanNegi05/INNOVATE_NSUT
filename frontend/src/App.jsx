@@ -1,10 +1,14 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { UtensilsCrossed, ClipboardList } from 'lucide-react';
 import MenuManagement from './pages/MenuManagement';
 import OrdersManagement from './pages/OrdersManagement';
-
+import './App.css'
+import { BrowserRouter as Router , Route, Routes } from 'react-router-dom'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
 function App() {
   return (
     <Router>
@@ -42,12 +46,13 @@ function App() {
           <Routes>
             <Route path="/" element={<MenuManagement />} />
             <Route path="/orders" element={<OrdersManagement />} />
+            <Route path='/signup' element={<SignUp></SignUp>} ></Route>
+            <Route path = '/login' element = {<Login></Login>}></Route>
           </Routes>
         </main>
         <Toaster position="top-right" />
       </div>
     </Router>
   );
-}
-
+};
 export default App;

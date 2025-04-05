@@ -5,21 +5,31 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const database = require('./config/database');
 const route = require('./Routes/Route');
+const cookieParser = require('cookie-parser');
 
 // Load environment variables
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
-// Connect to database
+// Connect to the database
 database.connect();
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.json()); // You can remove this if bodyParser.json() is already used
+app.use(cors({
+  origin: 'http://localhost:5173', // Update with your front-end URL if needed
+  credentials: true,
+}));
+app.use(cookieParser());
+app.use(bodyParser.json()); // Parse incoming JSON requests
 
 // Routes
 app.use('/api/v1', route);
+
+const userRoutes = require('./routes/UserRoute');
+const itemRoute = require('./routes/ItemRoute');
+
+app.use('/api/v1/auth', userRoutes);
+app.use('/api/v1/item', itemRoute);
 
 // Start server
 app.listen(PORT, () => {
