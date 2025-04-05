@@ -53,4 +53,4 @@ const foundItemSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("founditem", foundItemSchema);
+module.exports = mongoose.model("FoundItem", foundItemSchema);

@@ -1,43 +1,16 @@
-// Import the required modules
-const express = require("express")
-const {founditem} = require('../controllers/foundItems')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-// Import the required controllers and middleware functions
-const {
-  login,
-  signup,
-} = require("../controllers/Auth")
+// ✅ Make sure these match the actual file and function names exactly
+const { getAllFoundItems } = require("../controllers/FoundItem");
+const { login, signup } = require("../controllers/Auth");
 
+// 🔐 Auth routes
+router.post("/login", login);
+router.post("/signup", signup);
 
-// const { auth } = require("../middlewares/auth")
+// 📦 Found items routes
+router.get("/founditems", getAllFoundItems);
 
-// Routes for Login, Signup, and Authentication
-
-// ********************************************************************************************************
-//                                      Authentication routes
-// ********************************************************************************************************
-
-// Route for user login
-router.post("/login", login)
-
-// Route for user signup
-router.post("/signup", signup)
-
-
-router.get('/founditems', founditem)
-
-router.get('/founditem/:id', particularitem)
-// // Route for sending OTP to the user's email
-// router.post("/sendotp", sendotp)
-
-
-
-// ********************************************************************************************************
-//                                      Reset Password
-// ********************************************************************************************************
-
-// Route for generating a reset password token
-
-// Export the router for use in the main application
-module.exports = router
+// 🚀 Export the router
+module.exports = router;

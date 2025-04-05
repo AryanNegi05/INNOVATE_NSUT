@@ -10,7 +10,6 @@ app.use(
     credentials :true,
   })
 )
-const userSeederRoute = require("./routes/userSeeder");
 app.use(express.json());
 
 const userRoutes = require('./routes/UserRoute')
@@ -18,7 +17,6 @@ const PORT = process.env.PORT;
 
 database.connect();
 app.use('/api/v1/auth',userRoutes)
-app.use("/api", userSeederRoute);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
