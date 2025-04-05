@@ -138,3 +138,32 @@ exports.updateClaimStatus = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.createFoundItem = async (req, res) => {
+    try {
+      const { title, description, image, category, landmark } = req.body;
+      const userId = req.user.id; // assuming `auth` middleware sets `req.user`
+  
+      if (!title || !description || !image || !category || !landmark) {
+        return res.status(400).json({ success: false, message: "All fields are required." });
+      }
+  
+      const newItem = await FoundItem.create({
+        title,
+        description,
+        image,
+        category,
+        landmark,
+        reportedBy: userId,
+      });
+  
+      return res.status(201).json({
+        success: true,
+        message: "Found item reported successfully.",
+        data: newItem,
+      });
+    } catch (error) {
+      console.error("Error creating found item:", error);
+      return res.status(500).json({ success: false, message: "Failed to report found item." });
+    }
+  };
