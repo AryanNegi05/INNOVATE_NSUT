@@ -27,7 +27,7 @@ const foundItemSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "found",
-      enum: ["found"],
+      enum: ["found","resolved"],
     },
 
     // Where the item was found (textual)

@@ -8,7 +8,7 @@ const cors = require("cors");
 
 // 2. Middleware setup (CORS and parsers)
 app.use(cors({
-  origin: 'http://localhost:5173', // frontend origin
+  origin: ['http://localhost:5173','*'], // frontend origin
   credentials: true               // to allow cookies from frontend
 }));
 
@@ -21,9 +21,11 @@ database.connect();
 
 // 4. Route registration
 const userRoutes = require('./routes/UserRoute');
+const route = require('./routes/Route');
 const itemRoute = require('./routes/ItemRoute');
 
-app.use('/api/v1/auth', userRoutes);  // e.g., /api/v1/auth/login
+ app.use('/api/v1', route);  // e.g., /api/v1/auth/login
+ app.use('/api/v1/auth', userRoutes);  // e.g., /api/v1/auth/login
 app.use('/api/v1/item', itemRoute);  // e.g., /api/v1/item/add
 
 // 5. Start the server

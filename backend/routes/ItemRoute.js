@@ -32,7 +32,7 @@ router.post(
   ]),
   createClaimedRequest
 );
-// router.put("/update-claim", auth, updateClaimStatus);
+ router.put("/update-claim", auth, updateClaimStatus);
 
 router.post(
   '/found-items',

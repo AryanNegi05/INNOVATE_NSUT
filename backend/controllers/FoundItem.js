@@ -125,12 +125,12 @@ exports.updateClaimStatus = async (req, res) => {
       return res.status(400).json({ message: "Invalid status value" });
     }
 
-    const claim = await ClaimedRequest.findById(claimId).populate("item");
+    const claim = await ClaimedRequest.findById(claimId).populate("foundItem");
     if (!claim) {
       return res.status(404).json({ message: "Claim request not found" });
     }
 
-    const item = await FoundItem.findById(claim.item._id);
+    const item = await FoundItem.findById(claim.foundItem);
     if (!item) {
       return res.status(404).json({ message: "Item not found" });
     }

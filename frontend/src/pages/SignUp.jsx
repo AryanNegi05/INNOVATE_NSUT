@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { Mail, Lock, User, Phone, UserCircle, LightbulbIcon } from 'lucide-react';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const SignupForm = () => {
     confirmPassword: '',
     accountType: '', // e.g., "Student" or "Instructor"
   });
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,88 +23,196 @@ const SignupForm = () => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:3000/api/v1/auth/signup', formData);
-      alert(res.data.message);
+      setMessage(res.data.message);
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || 'Signup failed. Please try again.');
+      setMessage(err.response?.data?.message || 'Signup failed. Please try again.');
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-center">Signup</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={formData.firstName}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={formData.lastName}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="tel"
-          name="contactNumber"
-          placeholder="Contact Number (optional)"
-          value={formData.contactNumber}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-        />
-        <select
-          name="accountType"
-          value={formData.accountType}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
+    <div className="flex items-center justify-center h-screen bg-slate-900">
+      <div className="w-full max-w-2xl px-6">
+        <div className="flex justify-center mb-6">
+          <div className="flex items-center gap-2">
+            <LightbulbIcon className="text-indigo-400 w-6 h-6" />
+            <span className="text-xl font-bold text-white">CAMPUS<span className="text-indigo-400">HUB</span></span>
+          </div>
+        </div>
+        
+        <form
+          onSubmit={handleSubmit}
+          className="bg-slate-800 shadow-xl rounded-lg px-8 pt-6 pb-6 mb-4 border border-slate-700"
         >
-          <option value="">Select Account Type</option>
-          <option value="Student">Student</option>
-          <option value="Admin">Admin</option>
-        </select>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Register
-        </button>
-      </form>
+          <h2 className="text-2xl font-bold mb-5 text-center text-white">Sign Up</h2>
+
+          {message && (
+            <div className="mb-4 text-center text-red-300 text-sm bg-red-900/30 p-2 rounded">
+              {message}
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-3">
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                First Name
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="firstName"
+                  className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Last Name
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="lastName"
+                  className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-3">
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Email
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your.email@university.edu"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Contact Number (optional)
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Phone className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="tel"
+                  name="contactNumber"
+                  className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+                  value={formData.contactNumber}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <label className="block text-gray-300 text-sm font-medium mb-1">
+              Account Type
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <UserCircle className="h-5 w-5 text-gray-400" />
+              </div>
+              <select
+                name="accountType"
+                className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white appearance-none"
+                value={formData.accountType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Account Type</option>
+                <option value="Student">Student</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="password"
+                  name="password"
+                  className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-300 text-sm font-medium mb-1">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  className="bg-slate-700 w-full pl-10 pr-3 py-2 rounded-md border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between mt-2">
+            <button
+              type="submit"
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded focus:outline-none focus:shadow-outline transition-colors"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+        
+        <p className="text-center text-gray-400 text-sm">
+          Already have an account? <a href="#" className="text-indigo-400 hover:text-indigo-300">Login</a>
+        </p>
+      </div>
     </div>
   );
 };

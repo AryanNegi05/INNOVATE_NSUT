@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import LFHomePage from './pages/LFHomePage';
 import AddItemPage from './pages/AddItemPage';
 import LostItemPage from './pages/LostItem';
+import HomePage from './pages/HomePage'
 // import ItemPage from './components/ItemPage';
 // import ListingPage from './components/ListingPage';
 // import RequestsPage from './components/RequestsPage';
 import Navbar from './pages/NavigationBar';
+import LoginForm from './pages/Login';
+import SignupForm from './pages/SignUp';
+import MasterPage from './pages/MasterPage'
 
 // Create a black and white theme
 const theme = createTheme({
@@ -62,16 +66,21 @@ const theme = createTheme({
 });
 
 function App() {
+  const [Email,setEmail]=useState("dummy@gmail.com");
+  useEffect(()=>{
+    setEmail(localStorage.getItem('email'));
+  })
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Navbar />
       <Router>
         
         <Routes>
-          <Route path="/" element={<LFHomePage />} />
-          <Route path="/AddItem" element={<AddItemPage />} />
-          <Route path="/lostItem" element={<LostItemPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/masterpage" element={<MasterPage Email={Email}/>} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
