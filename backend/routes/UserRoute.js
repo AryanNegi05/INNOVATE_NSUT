@@ -1,5 +1,6 @@
 // Import the required modules
 const express = require("express")
+const {founditem} = require('../controllers/foundItems')
 const router = express.Router()
 
 // Import the required controllers and middleware functions
@@ -23,6 +24,10 @@ router.post("/login", login)
 // Route for user signup
 router.post("/signup", signup)
 
+
+router.get('/founditems', founditem)
+
+router.get('/founditem/:id', particularitem)
 // // Route for sending OTP to the user's email
 // router.post("/sendotp", sendotp)
 
