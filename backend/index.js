@@ -18,7 +18,7 @@ const PORT = process.env.PORT;
 
 database.connect();
 app.use('/api/v1/auth',userRoutes)
-app.use('/api/v1/item', itemRoute);
+// app.use('/api/v1/item', itemRoute);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
