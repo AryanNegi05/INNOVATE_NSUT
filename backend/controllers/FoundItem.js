@@ -1,5 +1,7 @@
 const ClaimedRequest = require("../models/ClaimedRequest");
 const FoundItem = require("../models/FoundItem");
+const uploadOnCloudinary = require('../utils/cloudinary');
+
 
 // Get all found items
 exports.getAllFoundItems = async (req, res) => {
@@ -15,10 +17,11 @@ exports.getAllFoundItems = async (req, res) => {
   }
 };
 
-// Create a claimed request
+
+
 exports.createClaimedRequest = async (req, res) => {
   try {
-    const { itemId, message, proofImage } = req.body;
+    const { itemId, message } = req.body;
     const requesterId = req.user.id;
 
     const item = await FoundItem.findById(itemId);
@@ -27,18 +30,25 @@ exports.createClaimedRequest = async (req, res) => {
     }
 
     const existing = await ClaimedRequest.findOne({
-      item: itemId,
-      requester: requesterId,
+      foundItem: itemId,
+      claimedBy: requesterId,
     });
     if (existing) {
       return res.status(400).json({ message: "You have already submitted a claim for this item." });
     }
 
+    let imageLocalPath;
+    if (req.files && Array.isArray(req.files.image) && req.files.image.length > 0) {
+      imageLocalPath = req.files.image[0].path
+    }
+
+    const image = await uploadOnCloudinary(imageLocalPath)
+
     const claim = await ClaimedRequest.create({
-      item: itemId,
-      requester: requesterId,
+      foundItem: itemId,
+      claimedBy: requesterId,
       message,
-      proofImage,
+      proof: image?.url || "",
     });
 
     res.status(201).json({ message: "Claimed request submitted successfully", claim });
@@ -47,6 +57,7 @@ exports.createClaimedRequest = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 // Get all items reported by the logged-in user
 exports.getMyListings = async (req, res) => {
@@ -68,8 +79,8 @@ exports.getMyRequests = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const myRequests = await ClaimedRequest.find({ requester: userId })
-      .populate("item")
+    const myRequests = await ClaimedRequest.find({ claimedBy: userId })
+      .populate("foundItem") // populate the found item details
       .sort({ createdAt: -1 });
 
     res.status(200).json(myRequests);
@@ -79,17 +90,21 @@ exports.getMyRequests = async (req, res) => {
   }
 };
 
+
+
 // Get all claims for items reported by the user
 exports.getClaimsForMyItems = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    // Get all items reported by the current user
     const myItems = await FoundItem.find({ reportedBy: userId });
     const myItemIds = myItems.map(item => item._id);
 
-    const claims = await ClaimedRequest.find({ item: { $in: myItemIds } })
-      .populate("item")
-      .populate("requester", "firstName lastName email image")
+    // Find claims related to those items
+    const claims = await ClaimedRequest.find({ foundItem: { $in: myItemIds } })
+      .populate("foundItem") // Populate the actual item being claimed
+      .populate("claimedBy", "firstName lastName email image") // Populate the user who claimed it
       .sort({ createdAt: -1 });
 
     res.status(200).json(claims);
@@ -98,6 +113,7 @@ exports.getClaimsForMyItems = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 // Update claim status (approve/reject/pending)
 exports.updateClaimStatus = async (req, res) => {
@@ -140,30 +156,41 @@ exports.updateClaimStatus = async (req, res) => {
 };
 
 exports.createFoundItem = async (req, res) => {
-    try {
-      const { title, description, image, category, landmark } = req.body;
-      const userId = req.user.id; // assuming `auth` middleware sets `req.user`
-  
-      if (!title || !description || !image || !category || !landmark) {
-        return res.status(400).json({ success: false, message: "All fields are required." });
-      }
-  
-      const newItem = await FoundItem.create({
-        title,
-        description,
-        image,
-        category,
-        landmark,
-        reportedBy: userId,
-      });
-  
-      return res.status(201).json({
-        success: true,
-        message: "Found item reported successfully.",
-        data: newItem,
-      });
-    } catch (error) {
-      console.error("Error creating found item:", error);
-      return res.status(500).json({ success: false, message: "Failed to report found item." });
+  try {
+    const { title, description, category, landmark } = req.body;
+    const userId = req.user.id;
+
+    
+    console.log("step1");
+    
+    let imageLocalPath;
+    if (req.files && Array.isArray(req.files.image) && req.files.image.length > 0) {
+      imageLocalPath = req.files.image[0].path;
     }
-  };
+    console.log("step1");
+
+    const image = await uploadOnCloudinary(imageLocalPath);
+
+    if (!title || !description  || !category || !landmark) {
+      return res.status(400).json({ success: false, message: "All fields are required." });
+    }
+
+    const newItem = await FoundItem.create({
+      title,
+      description,
+      image : image?.url || "",
+      category,
+      landmark,
+      reportedBy: userId,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Found item reported successfully.",
+      data: newItem,
+    });
+  } catch (error) {
+    console.error("Error creating found item:", error);
+    return res.status(500).json({ success: false, message: "Failed to report found item." });
+  }
+};
