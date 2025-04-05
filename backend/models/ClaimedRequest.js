@@ -12,7 +12,7 @@ const claimedRequestSchema = new mongoose.Schema(
     // The found item being claimed
     foundItem: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "founditem",
+      ref: "FoundItem",
       required: true,
     },
 
