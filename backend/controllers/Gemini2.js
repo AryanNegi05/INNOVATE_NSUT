@@ -1,7 +1,7 @@
 require("dotenv").config();  // Load environment variables
 const { GoogleGenAI } = require('@google/genai');  // Use require() for CommonJS
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-const Dish = require('../Models/Menu'); // Assuming your model is in models/Dish.js
+const Dish = require('../models/Menu'); // Assuming your model is in models/Dish.js
 
 // Function to fetch today's menu with calorie information
 // async function getTodayMenu() {

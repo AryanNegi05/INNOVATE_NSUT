@@ -6,7 +6,7 @@ const {
   updateCanteenOrderStatus,
   getCanteenOrderStats,
   placeOrderForUserAndCanteen
-} = require('../Controllers/orderController');
+} = require('../controllers/orderController');
 const {Gemini} = require('../controllers/Gemini');
 // POST endpoint to insert menu
 const menuController = require('../controllers/menuController');

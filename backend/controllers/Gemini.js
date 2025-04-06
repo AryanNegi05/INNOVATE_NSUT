@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { GoogleGenAI } = require('@google/genai');  // Use require() for CommonJS
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-const { CanteenOrder } = require('../Models/Orders');  // Importing the canteen order model
+const { CanteenOrder } = require('../models/Orders');  // Importing the canteen order model
 
 // Function to fetch transaction history for the current month
 async function getTransactionHistory(month) {
