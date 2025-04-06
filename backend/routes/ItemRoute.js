@@ -24,9 +24,9 @@ router.get("/items", getAllFoundItems);
 // In your routes file
 router.post("/approve", handleRequestAction);
 // Protected routes (authentication required)
-router.get("/my-listings", auth, getMyListings);
-router.get("/my-requests", auth, getMyRequests);
-router.get("/claims-for-my-items", auth, getClaimsForMyItems);
+router.get("/my-listings", getMyListings);
+router.get("/my-requests", getMyRequests);
+router.get("/claims-for-my-items",  getClaimsForMyItems);
 router.post(
   '/claim',
   auth,
@@ -35,11 +35,10 @@ router.post(
   ]),
   createClaimedRequest
 );
- router.put("/update-claim", auth, updateClaimStatus);
+ router.put("/update-claim", updateClaimStatus);
 
 router.post(
   '/found-items',
-  auth,
   isStudent,
   upload.fields([
     { name: "image", maxCount: 1 },
