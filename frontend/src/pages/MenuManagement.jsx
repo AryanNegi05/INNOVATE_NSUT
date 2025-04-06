@@ -30,7 +30,7 @@ const TodayMenu = ({setActiveSection}) => {
   const fetchTodayMenu = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:3000/api/v1/todaymenu');
+      const res = await axios.get('https://innovate-nsut.onrender.com/api/v1/todaymenu');
       setMenuItems(res.data.data);
       setLoading(false);
     } catch (err) {
@@ -79,7 +79,7 @@ const TodayMenu = ({setActiveSection}) => {
 
   const uploadTodayMenu = async () => {
     try {
-      await axios.post('http://localhost:3000/api/v1/todaymenu', newMenu);
+      await axios.post('https://innovate-nsut.onrender.com/api/v1/todaymenu', newMenu);
       alert("Today's menu uploaded successfully!");
       fetchTodayMenu();
       setNewMenu([]);
@@ -91,7 +91,7 @@ const TodayMenu = ({setActiveSection}) => {
 
   const updateTodayMenu = async () => {
     try {
-      await axios.put('http://localhost:3000/api/v1/todaymenu', newMenu.length > 0 ? newMenu : menuItems);
+      await axios.put('https://innovate-nsut.onrender.com/api/v1/todaymenu', newMenu.length > 0 ? newMenu : menuItems);
       alert("Today's menu updated successfully!");
       fetchTodayMenu();
       setNewMenu([]);
@@ -107,7 +107,7 @@ const TodayMenu = ({setActiveSection}) => {
 
   const getAnalysis = async () => {
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/aibaseddishes');
+      const res = await axios.post('https://innovate-nsut.onrender.com/api/v1/aibaseddishes');
       setAnalysisResult(res.data.analysis || 'No analysis available.');
       setShowAnalysisModal(true);
     } catch (err) {

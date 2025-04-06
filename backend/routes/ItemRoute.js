@@ -22,11 +22,12 @@ const upload = require("../middleware/multer.middleware.js");
 // Public routes (no authentication required)
 router.get("/items", getAllFoundItems);
 // In your routes file
-router.post("/approve", handleRequestAction);
+// const itemController = require('../controllers/itemController');
+// router.post("/approve", itemController.handleRequestAction);
 // Protected routes (authentication required)
-router.get("/my-listings", getMyListings);
-router.get("/my-requests", getMyRequests);
-router.get("/claims-for-my-items",  getClaimsForMyItems);
+router.get("/my-listings", auth, getMyListings);
+router.get("/my-requests", auth, getMyRequests);
+router.get("/claims-for-my-items", auth, getClaimsForMyItems);
 router.post(
   '/claim',
   auth,
@@ -35,10 +36,11 @@ router.post(
   ]),
   createClaimedRequest
 );
- router.put("/update-claim", updateClaimStatus);
+ router.put("/update-claim", auth, updateClaimStatus);
 
 router.post(
   '/found-items',
+  auth,
   isStudent,
   upload.fields([
     { name: "image", maxCount: 1 },

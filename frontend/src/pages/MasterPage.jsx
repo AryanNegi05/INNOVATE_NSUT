@@ -70,7 +70,6 @@ const FoundItemsComponent = () => {
     };
 
     fetchItems();
-    Email=localstorage.getItem('email');
   }, []);
 
   const handleFileChange = (e) => {
@@ -278,22 +277,6 @@ const FoundItemsComponent = () => {
       }
     };
   
-    const handleRequestAction = async (requestId, action) => {
-      try {
-        await axios.put(
-          `http://localhost:3000/api/v1/item/request/${requestId}/${action}`,
-          {},
-          { withCredentials: true }
-        );
-        
-        // Refresh the claim requests for this item
-        if (expandedItem) {
-          fetchItemRequests(expandedItem);
-        }
-      } catch (err) {
-        console.error(`Error ${action} request:`, err);
-      }
-    };
   
     const formatDate = (dateString) => {
       return new Date(dateString).toLocaleDateString('en-US', {

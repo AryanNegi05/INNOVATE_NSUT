@@ -15,8 +15,8 @@ const CanteenOrdersPage = ({setActiveSection}) => {
     try {
       setLoading(true);
       const url = statusFilter === 'all' 
-        ? 'http://localhost:3000/api/v1/canteen/orders' 
-        : 'http://localhost:3000/api/v1/canteen/orders?status=${statusFilter}';
+        ? 'https://innovate-nsut.onrender.com/api/v1/canteen/orders' 
+        : 'https://innovate-nsut.onrender.com/api/v1/canteen/orders?status=${statusFilter}';
       
       const response = await axios.get(url);
 
@@ -39,7 +39,7 @@ const CanteenOrdersPage = ({setActiveSection}) => {
     try {
       console.log("orderId",orderId);
       console.log("newStatus",newStatus);
-      await axios.put(`http://localhost:3000/api/v1/canteen/orders/${orderId}`, { status: newStatus });
+      await axios.put(`https://innovate-nsut.onrender.com/api/v1/canteen/orders/${orderId}`, { status: newStatus });
       fetchOrders(); // Refresh orders after update
     } catch (err) {
       setError('Failed to update order status. Please try again.');

@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { Mail, Lock, LightbulbIcon } from 'lucide-react';
+import { Mail, Lock, LightbulbIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/auth/login",
+        "https://innovate-nsut.onrender.com/api/v1/auth/login",
         { email, password },
         { withCredentials: true }
       );
-  
+
       setMessage(res.data.message);
       console.log("Login Success:", res.data);
       localStorage.setItem("userId", res.data.userId); // Store userId in localStorage
@@ -27,16 +27,14 @@ const LoginForm = () => {
       localStorage.setItem("email", res.data.email); // Store userId in localStorage
       localStorage.setItem("token", res.data.token); // Store userId in localStorage
       console.log("Login Success:", res.data);
-  
+
       // Redirect to master page after login
       navigate("/masterpage"); // or whatever your route is
-  
     } catch (err) {
       console.error("Login Error:", err.response?.data || err);
       setMessage(err.response?.data?.message || "Login failed");
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center h-screen bg-slate-900">
@@ -44,15 +42,19 @@ const LoginForm = () => {
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2">
             <LightbulbIcon className="text-indigo-400 w-6 h-6" />
-            <span className="text-xl font-bold text-white">CAMPUS<span className="text-indigo-400">HUB</span></span>
+            <span className="text-xl font-bold text-white">
+              CAMPUS<span className="text-indigo-400">HUB</span>
+            </span>
           </div>
         </div>
-        
+
         <form
           onSubmit={handleSubmit}
           className="bg-slate-800 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4 border border-slate-700"
         >
-          <h2 className="text-2xl font-bold mb-6 text-center text-white">Login</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center text-white">
+            Login
+          </h2>
 
           {message && (
             <div className="mb-4 text-center text-green-300 text-sm bg-green-900/30 p-2 rounded">
@@ -106,16 +108,22 @@ const LoginForm = () => {
               Login
             </button>
           </div>
-          
+
           <div className="text-center mt-6">
-            <a href="#" className="text-indigo-400 hover:text-indigo-300 text-sm">
+            <a
+              href="#"
+              className="text-indigo-400 hover:text-indigo-300 text-sm"
+            >
               Forgot your password?
             </a>
           </div>
         </form>
-        
+
         <p className="text-center text-gray-400 text-sm">
-          Don't have an account? <a href="#" className="text-indigo-400 hover:text-indigo-300">Sign up</a>
+          Don't have an account?{" "}
+          <a href="#" className="text-indigo-400 hover:text-indigo-300">
+            Sign up
+          </a>
         </p>
       </div>
     </div>

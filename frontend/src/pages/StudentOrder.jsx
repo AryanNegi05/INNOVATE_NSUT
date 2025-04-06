@@ -54,7 +54,7 @@ const StudentOrder = ({setActiveSection}) => {
         totalAmount: item.price * quantity,
       };
 
-      const res = await axios.post("http://localhost:3000/api/v1/place-order", orderPayload);
+      const res = await axios.post("https://innovate-nsut.onrender.com/api/v1/place-order", orderPayload);
 
       if (res.data.success) {
         alert("✅ Order placed successfully!");
@@ -70,7 +70,7 @@ const StudentOrder = ({setActiveSection}) => {
   // Handle AI-based suggestions
   const handleSuggestionSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/v1/aibasedsuggestion", {
+      const res = await axios.post("https://innovate-nsut.onrender.com/api/v1/aibasedsuggestion", {
         prompt: suggestionText, // Send the user's suggestion text to the API
       });
       if (res.data.analysis) {
