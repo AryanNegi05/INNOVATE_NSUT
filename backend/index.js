@@ -8,7 +8,7 @@ const cors = require("cors");
 
 // 2. Middleware setup (CORS and parsers)
 app.use(cors({
-  origin: '*', // frontend origin
+  origin: 'http://localhost:5173', // frontend origin
   credentials: true               // to allow cookies from frontend
 }));
 
