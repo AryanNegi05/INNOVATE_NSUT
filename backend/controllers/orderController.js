@@ -1,6 +1,6 @@
 const { CanteenOrder } = require('../models/Orders');
 const { UserOrder } = require('../models/Orders');
-const Dish = require('../m odels/Menu'); // Assuming you have a Dish model for menu items
+const Dish = require('../models/Menu'); // Assuming you have a Dish model for menu items
 // Get all canteen orders with optional status filter
 exports.getCanteenOrders = async (req, res) => {
   try {
