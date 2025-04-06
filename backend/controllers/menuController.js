@@ -1,5 +1,5 @@
 // controllers/menuController.js
-const Dish = require('../ models/Menu'); // Assuming your model is in models/Dish.js
+const Dish = require('../models/Menu'); // Assuming your model is in models/Dish.js
 const cloudinary = require('cloudinary').v2; // Import Cloudinary
 const multer = require('multer');
 cloudinary.config({
