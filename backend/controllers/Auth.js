@@ -116,6 +116,7 @@ exports.login = async (req, res) => {
   try {
     // Get email and password from request body
     const { email, password } = req.body
+    console.log("email",email,password);
 
     // Check if email or password is missing
     if (!email || !password) {
