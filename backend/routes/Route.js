@@ -12,7 +12,7 @@ const {Gemini} = require('../controllers/Gemini');
 const menuController = require('../controllers/menuController');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
-const Dish = require('../Models/Menu'); // Your Mongoose model
+const Dish = require('../models/Menu'); // Your Mongoose model
 const { Gemini2 } = require('../controllers/Gemini2');
 
 // Configure Cloudinary
