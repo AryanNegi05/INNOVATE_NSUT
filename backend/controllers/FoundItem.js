@@ -18,6 +18,32 @@ exports.getAllFoundItems = async (req, res) => {
 };
 
 
+exports.handleRequestAction = async (req, res) => {
+  try {
+    const { itemId, action } = req.body;
+    console.log("ItemId",itemId, action);
+
+    const item = await FoundItem.findById(itemId);
+
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    if (item.status === "found" && action === "approve") {
+      item.status = "approved";  // Update the item's status
+
+      await item.save();  // Save the updated item
+
+      return res.status(200).json({ success: "Item approved successfully", item });
+    }
+
+    return res.status(400).json({ error: "Action not allowed or item status is incorrect" });
+  } catch (error) {
+    console.error("Error approving item:", error);
+    return res.status(500).json({ error: "An error occurred while processing the request" });
+  }
+};
+
 
 exports.createClaimedRequest = async (req, res) => {
   try {

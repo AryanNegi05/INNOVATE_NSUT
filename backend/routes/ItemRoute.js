@@ -12,6 +12,7 @@ const {
     getMyRequests,
     getClaimsForMyItems,
     updateClaimStatus,
+    handleRequestAction,
   } = require("../controllers/FoundItem");
 
 const {auth , isStudent} = require('../middleware/auth')
@@ -20,6 +21,8 @@ const upload = require("../middleware/multer.middleware.js");
 
 // Public routes (no authentication required)
 router.get("/items", getAllFoundItems);
+// In your routes file
+router.post("/approve", handleRequestAction);
 // Protected routes (authentication required)
 router.get("/my-listings", auth, getMyListings);
 router.get("/my-requests", auth, getMyRequests);
